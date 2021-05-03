@@ -1,0 +1,278 @@
+<html><head>
+        <meta charset="utf-8">
+        <title>戳泡泡</title>
+        <link rel="stylesheet" href="style/picnic.min.css">
+        <link rel="stylesheet" type="text/css" href="style/main.css">
+        <!-- <link href="//fonts.googleapis.com/css?family=Exo+2:400,600italic" rel="stylesheet" type="text/css"> -->
+        <link rel="stylesheet" type="text/css" href="style/font.css">
+        <link rel="icon" href="favicon.png">
+        <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script src="scripts/launchgame.js"></script>
+        <script src="scripts/downloader.js"></script>
+        <script src="scripts/addbeatmaplist.js"></script>
+        <script src="scripts/settings.js"></script>
+        <script src="scripts/jsloader.js"></script>
+        <script src="scripts/lib/localforage.min.js"></script>
+    <script src="https://osugame.sayobot.cn/scripts/lib/zip.js"></script><script src="https://osugame.sayobot.cn/scripts/lib/pixi.min.js"></script><script src="https://osugame.sayobot.cn/scripts/lib/mp3parse.min.js"></script><script src="https://osugame.sayobot.cn/scripts/lib/localforage.min.js"></script><script src="https://osugame.sayobot.cn/scripts/lib/zip-fs.js"></script><script data-main="https://osugame.sayobot.cn/scripts/initgame" src="https://osugame.sayobot.cn/scripts/lib/require.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="initgame" src="https://osugame.sayobot.cn/scripts/initgame.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="osu" src="https://osugame.sayobot.cn/scripts/osu.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="sound" src="https://osugame.sayobot.cn/scripts/lib/sound.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="playback" src="https://osugame.sayobot.cn/scripts/playback.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="underscore" src="https://osugame.sayobot.cn/scripts/lib/underscore.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="osu-audio" src="https://osugame.sayobot.cn/scripts/osu-audio.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="curves/LinearBezier" src="https://osugame.sayobot.cn/scripts/curves/LinearBezier.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="curves/CircumscribedCircle" src="https://osugame.sayobot.cn/scripts/curves/CircumscribedCircle.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="playerActions" src="https://osugame.sayobot.cn/scripts/playerActions.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="SliderMesh" src="https://osugame.sayobot.cn/scripts/SliderMesh.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="overlay/score" src="https://osugame.sayobot.cn/scripts/overlay/score.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="overlay/volume" src="https://osugame.sayobot.cn/scripts/overlay/volume.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="overlay/loading" src="https://osugame.sayobot.cn/scripts/overlay/loading.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="overlay/break" src="https://osugame.sayobot.cn/scripts/overlay/break.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="overlay/progress" src="https://osugame.sayobot.cn/scripts/overlay/progress.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="overlay/hiterrormeter" src="https://osugame.sayobot.cn/scripts/overlay/hiterrormeter.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="curves/EqualDistanceMultiCurve" src="https://osugame.sayobot.cn/scripts/curves/EqualDistanceMultiCurve.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="curves/Bezier2" src="https://osugame.sayobot.cn/scripts/curves/Bezier2.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="curves/Curve" src="https://osugame.sayobot.cn/scripts/curves/Curve.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="curves/CurveType" src="https://osugame.sayobot.cn/scripts/curves/CurveType.js"></script></head>
+
+    <body class="script-ready sound-ready skin-ready gaming">
+        <div class="game-area shownomouse" id="game-area">
+        <canvas width="1227" height="915" style="touch-action: none; width: 982px; height: 732px; cursor: inherit;"></canvas></div>
+
+        <div class="pause-menu" id="pause-menu">
+            <div class="paused-title">paused</div>
+            <div class="button-list">
+                <div class="pausebutton continue" id="pausebtn-continue">
+                    <div class="inner">Continue</div>
+                </div>
+                <div class="pausebutton retry" id="pausebtn-retry">
+                    <div class="inner">Retry</div>
+                </div>
+                <div class="pausebutton quit" id="pausebtn-quit">
+                    <div class="inner">Quit</div>
+                </div>
+            </div>
+        </div>
+
+        <nav id="main-nav" style="display: none">
+            <div class="nav-link">
+                <a href="index.html" class="brand">Osaka Salmon University!</a>
+                <a href="new.html" class="pseudo button">最新</a>
+                <a href="hot.html" class="pseudo button">热门</a>
+                <a href="genre.html" class="pseudo button">分类</a>
+            </div>
+            <div class="nav-search">
+                <form action="search.html">
+                    <input type="text" name="q" placeholder="谱面关键词或sid">
+                    <input type="image" class="search-button" src="research.svg">
+                </form>
+            </div>
+            <div class="nav-tool">
+                <a href="local.html" class="pseudo button">收藏夹</a>
+                <a href="faq.html" class="pseudo button">常见问题</a>
+                <a href="settings.html" class="pseudo button">设置</a>
+                <a onclick="document.documentElement.requestFullscreen();" class="pseudo button">进入全屏</a>
+            </div>
+        </nav>
+
+        <div class="main-page" id="main-page" hidden="">
+            <div class="main-content">
+                <div class="announcement">
+                    公告：请考虑<a href="https://osu.sayobot.cn/support">支持Sayobot</a>！Sayobot是本站的谱面源，请给服务器续命❤️
+                    <a href="https://paypal.me/Sayobot">Donate with Paypal</a>
+                </div>
+                <br>
+                <div class="index-area">
+                    <h2>发生了什么</h2>
+                    <hr>
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>玩家</td>
+                                <td>歌曲</td>
+                                <td>连击</td>
+                                <td>分数</td>
+                                <td>准确率</td>
+                                <td>MODS</td>
+                                <td>时间</td>
+                            </tr>
+                        </thead>
+                        <tbody id="activity-list"><tr><td>**.185.43.**</td><td><a title="isogu2020 (Stream Practice Maps) [300BPM]" href="search.html?q=1276486">isogu2020 (Stream Practice Maps) [300BPM]</a></td><td>19x</td><td>33,726</td><td><span class="D">31.70%</span></td><td></td><td>19:15</td></tr><tr><td>**.244.234.**</td><td><a title="crossing field (TV Size) [Insane]" href="search.html?q=crossing field (TV Size)">crossing field (TV Size) [Insane]</a></td><td>97x</td><td>212,439</td><td><span class="C">75.37%</span></td><td></td><td>19:15</td></tr><tr><td>**.188.164.**</td><td><a title="Memory Lane [spoes' Hard]" href="search.html?q=888887">Memory Lane [spoes' Hard]</a></td><td>101x</td><td>274,770</td><td><span class="A">93.32%</span></td><td></td><td>19:14</td></tr><tr><td>**.45.60.**</td><td><a title="Guren no Yumiya (TV Size) [alacat's Normal]" href="search.html?q=87630">Guren no Yumiya (TV Size) [alacat's Normal]</a></td><td>89x</td><td>126,286</td><td><span class="B">81.20%</span></td><td></td><td>19:14</td></tr><tr><td>**.227.187.**</td><td><a title="Vanilla Chocolat (Sped Up Ver.) [Normal]" href="search.html?q=975620">Vanilla Chocolat (Sped Up Ver.) [Normal]</a></td><td>43x</td><td>57,708</td><td><span class="C">71.36%</span></td><td></td><td>19:13</td></tr><tr><td>**.228.207.**</td><td><a title="Mayday (feat. Laura Brehm) [[2B] Calling Out Mayday]" href="search.html?q=756794">Mayday (feat. Laura Brehm) [[2B] Calling Out Mayday]</a></td><td>39x</td><td>219,402</td><td><span class="F">31.93%</span></td><td></td><td>19:13</td></tr><tr><td>**.230.206.**</td><td><a title="Sweater Weather [Hard]" href="search.html?q=656186">Sweater Weather [Hard]</a></td><td>116x</td><td>340,492</td><td><span class="B">88.94%</span></td><td></td><td>19:13</td></tr><tr><td>**.194.98.**</td><td><a title="Press Start [Press Start! easy]" href="search.html?q=1386406">Press Start [Press Start! easy]</a></td><td>68x</td><td>44,576</td><td><span class="A">93.14%</span></td><td></td><td>19:13</td></tr><tr><td>**.185.43.**</td><td><a title="isogu2020 (Jump Practice) [isogu]" href="search.html?q=1167399">isogu2020 (Jump Practice) [isogu]</a></td><td>3x</td><td>11,740</td><td><span class="F">11.11%</span></td><td></td><td>19:13</td></tr><tr><td>**.244.234.**</td><td><a title="crossing field (TV Size) [Insane]" href="search.html?q=crossing field (TV Size)">crossing field (TV Size) [Insane]</a></td><td>56x</td><td>192,185</td><td><span class="B">80.92%</span></td><td></td><td>19:12</td></tr></tbody>
+                    </table>
+                </div>
+                <div class="index-area">
+                    <h2>随机曲目</h2>
+                    <a onclick="genRandomList()" class="more" style="cursor:pointer;">换一换</a>
+                    <hr>
+                    <div class="beatmap-list" id="beatmap-list-random"><div class="beatmapbox"><img class="beatmapcover" alt="cover18434" src="https://cdn.sayobot.cn:25225/beatmaps/18434/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">Hitori Janai</div><div class="beatmapartist">DEEN</div><div class="beatmapcreator">mapped by gowww</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring easy"></div><div class="difficulty-ring easy"></div><div class="difficulty-ring hard"></div></div><div class="beatmaplength">2:35</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover94240" src="https://cdn.sayobot.cn:25225/beatmaps/94240/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">Horaism (TV Size)</div><div class="beatmapartist">Taketatsu Ayana</div><div class="beatmapcreator">mapped by those</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring easy"></div><div class="difficulty-ring easy"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring hard"></div></div><div class="beatmaplength">1:23</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover826992" src="https://cdn.sayobot.cn:25225/beatmaps/826992/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">ASH</div><div class="beatmapartist">LiSA</div><div class="beatmapcreator">mapped by Nao Tomori</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring expert"></div></div><div class="beatmaplength">3:46</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover759331" src="https://cdn.sayobot.cn:25225/beatmaps/759331/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">Mahou Shoujo Chino</div><div class="beatmapartist">Chino (CV: Minase Inori)</div><div class="beatmapcreator">mapped by Yuuma</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring normal"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring expert"></div></div><div class="beatmaplength">1:31</div></div></div>
+                </div>
+                <div class="index-area">
+                    <h2>最近游玩</h2>
+                    <a href="history.html" class="more">查看自己的游玩记录</a>
+                    <hr>
+                    <div class="beatmap-list" id="beatmap-list-history">你还没有玩过一首歌曲哦！单击曲目，待加载完成后选择难度即开始游玩。</div>
+                </div>
+                <div class="index-area">
+                    <h2>最新曲目</h2>
+                    <a href="new.html" class="more">查看更多最新曲目</a>
+                    <hr>
+                    <div class="beatmap-list" id="beatmap-list-new">
+                        <!-- to be filled in script -->
+                    <div class="beatmapbox"><img class="beatmapcover" alt="cover1368018" src="https://cdn.sayobot.cn:25225/beatmaps/1368018/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">Let's Go, Crimson Knight!</div><div class="beatmapartist">Yu-Peng Chen @HOYO-MiX</div><div class="beatmapcreator">mapped by Moecho</div><div class="beatmapapproved">QUALIFIED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring easy"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div></div><div class="beatmaplength">1:25</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover1435839" src="https://cdn.sayobot.cn:25225/beatmaps/1435839/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">Nai Nai (TV Size)</div><div class="beatmapartist">ReoNa</div><div class="beatmapcreator">mapped by Hey lululu</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring easy"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring hard"></div></div><div class="beatmaplength">1:29</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover1129438" src="https://cdn.sayobot.cn:25225/beatmaps/1129438/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">After Dark (TV Size)</div><div class="beatmapartist">ASIAN KUNG-FU GENERATION</div><div class="beatmapcreator">mapped by Nelliel</div><div class="beatmapapproved">QUALIFIED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring normal"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring expert"></div><div class="difficulty-ring expert"></div></div><div class="beatmaplength">1:28</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover1193273" src="https://cdn.sayobot.cn:25225/beatmaps/1193273/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">I beg you</div><div class="beatmapartist">Kudou Chitose</div><div class="beatmapcreator">mapped by Yugu</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring normal"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring insane"></div></div><div class="beatmaplength">1:08</div></div></div>
+                </div>
+                <div class="index-area">
+                    <h2>已收藏曲目</h2>
+                    <a href="local.html" class="more">查看更多已收藏曲目</a>
+                    <hr>
+                    <div class="beatmap-list" id="beatmap-list-liked">你还没有收藏一首歌曲哦！点击曲目右下角的爱心以收藏这个曲目。</div>
+                </div>
+                <div class="index-area">
+                    <h2>热门曲目</h2>
+                    <a href="hot.html" class="more">查看更多热门曲目</a>
+                    <hr>
+                    <div class="beatmap-list" id="beatmap-list-hot">
+                        <!-- to be filled in script -->
+                    <div class="beatmapbox"><img class="beatmapcover" alt="cover765778" src="https://cdn.sayobot.cn:25225/beatmaps/765778/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">Make a Move (Speed Up Ver.)</div><div class="beatmapartist">Icon For Hire</div><div class="beatmapcreator">mapped by Sotarks</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring expert"></div><span class="difficulty-count">14</span></div><div class="beatmaplength">0:49</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover596704" src="https://cdn.sayobot.cn:25225/beatmaps/596704/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">Hitorigoto -TV MIX-</div><div class="beatmapartist">ClariS</div><div class="beatmapcreator">mapped by Doormat</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring easy"></div><div class="difficulty-ring easy"></div><div class="difficulty-ring normal"></div><div class="difficulty-ring normal"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring hard"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div><div class="difficulty-ring insane"></div></div><div class="beatmaplength">1:28</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover320118" src="https://cdn.sayobot.cn:25225/beatmaps/320118/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">No title</div><div class="beatmapartist">Reol</div><div class="beatmapcreator">mapped by VINXIS</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring expert-plus"></div><span class="difficulty-count">14</span></div><div class="beatmaplength">1:20</div></div><div class="beatmapbox"><img class="beatmapcover" alt="cover163112" src="https://cdn.sayobot.cn:25225/beatmaps/163112/covers/cover.webp"><div class="beatmapcover-overlay"></div><div class="beatmaptitle">My Love</div><div class="beatmapartist">Kuba Oms</div><div class="beatmapcreator">mapped by W h i t e</div><div class="beatmapapproved">RANKED</div><div class="beatmaplike icon-heart-empty"></div><div class="beatmap-difficulties"><div class="difficulty-ring easy"></div><div class="difficulty-ring normal"></div><div class="difficulty-ring hard"></div></div><div class="beatmaplength">3:44</div></div></div>
+                </div>
+                <div class="text">
+                    <a href="https://osu.sayobot.cn/support">支持小夜</a>！请给服务器续命❤️
+                    <a href="https://paypal.me/Sayobot">Donate to Sayobot with Paypal</a>
+                </div>
+                <div class="text">推荐使用最新版本 Firefox 或 Chrome.</div>
+                <div class="text">内测版v1.4.3. <a href="https://github.com/111116/osu">Github</a></div>
+                <div class="text">由<a href="https://osu.sayobot.cn/">Sayobot</a>提供谱面</div>
+            </div>
+            
+            <div class="statuslines" id="statuslines">
+                <div class="progress finished" id="script-progress">
+                    Scripts
+                    <div class="lds-dual-ring"></div>
+                </div>
+                <div class="progress finished" id="skin-progress">
+                    Skin
+                    <div class="lds-dual-ring"></div>
+                </div>
+                <div class="progress finished" id="sound-progress">
+                    Hitsounds
+                    <div class="lds-dual-ring"></div>
+                </div>
+            <div class="download-progress"><div class="title">Hitori Janai</div><progress max="1" value="1" class="finished"></progress></div></div>
+        </div>
+        <script>
+            // what's happening
+            let tbody = document.getElementById("activity-list");
+            function formattime(date) {
+                let m;
+                return date.getHours() + ":" + ((m=date.getMinutes())<10?('0'+m):m);
+            }
+            function showActivity(records) {
+                records = records.reverse();
+                while (tbody.firstChild)
+                    tbody.removeChild(tbody.firstChild);
+                for (let i=0; i<records.length && i<10; ++i) {
+                    let tr = document.createElement("tr");
+                    tbody.appendChild(tr);
+                    function nexttd(content) {
+                        let td = document.createElement("td");
+                        tr.appendChild(td);
+                        if (!content) return;
+                        if (content.tagName)
+                            td.appendChild(content);
+                        else
+                            td.innerText = content;
+                    }
+                    let b = records[i].ip.split(".");
+                    b[0]="**";
+                    if (b.length>3) b[3]="**";
+                    nexttd(b.join("."));
+                    let title = document.createElement("a");
+                    title.innerText = records[i].title + " [" + records[i].version + "]";
+                    title.title = records[i].title + " [" + records[i].version + "]";
+                    if (records[i].sid == "undefined")
+                        records[i].sid = undefined;
+                    title.href = "search.html?q=" + (records[i].sid || records[i].title);
+                    nexttd(title);
+                    nexttd(records[i].combo + "x");
+                    nexttd(parseInt(records[i].score).toLocaleString());
+                    let acc = document.createElement("span");
+                    acc.innerText = records[i].acc;
+                    acc.className = records[i].grade;
+                    nexttd(acc);
+                    nexttd(records[i].mods);
+                    nexttd(formattime(new Date(parseInt(records[i].time))));
+                }
+            }
+            let b={ip:"",title:"",version:"loading",score:0,combo:0,acc:0};
+            showActivity([b,b,b,b,b,b,b,b,b,b])
+            function refreshLivescore(){
+                let xhr = new XMLHttpRequest();
+                xhr.responseType = 'text';
+                xhr.open("GET", "http://api.osugame.online/fetch/");
+                xhr.onload = function() {
+                    showActivity(JSON.parse(xhr.response));
+                }
+                xhr.onerror = function() {
+                    console.error("failed fetching activities");
+                }
+                xhr.send();
+            }
+            refreshLivescore();
+            window.setInterval(refreshLivescore, 5000);
+            // recently played
+            if (window.localforage) {
+                let listhistory = document.getElementById("beatmap-list-history");
+                localforage.getItem("playhistory1000", function(err, item) {
+                    if (err) {
+                        listhistory.innerText = "游玩记录加载失败";
+                        return;
+                    }
+                    if (item && item.length) {
+                        item = item.reverse();
+                        sid = [];
+                        for (let i=0; i<item.length; ++i) {
+                            if (item[i].sid)
+                                sid.push(item[i].sid);
+                        }
+                        sid = [...new Set(sid)]; // uniq
+                        for (let i=0; i<4 && i<sid.length; ++i)
+                            addBeatmapSid(sid[i], listhistory)
+                    }
+                    else {
+                        listhistory.innerText = "你还没有玩过一首歌曲哦！单击曲目，待加载完成后选择难度即开始游玩。";
+                    }
+                })
+            }
+            // new
+            addBeatmapList("https://api.sayobot.cn/beatmaplist?0=20&1=0&2=2&5=1",
+                document.getElementById("beatmap-list-new"),
+                function(t){return (t.modes&1)!=0;}, 4);
+            // random
+            function genRandomList() {
+                // clear list
+                let list = document.getElementById("beatmap-list-random");
+                
+                // fill list
+                let randstart = Math.floor(Math.random()*20000);
+                addBeatmapList("https://api.sayobot.cn/beatmaplist?0=10&1="+randstart+"&2=1&5=1", list,
+                    function(t){while (list.firstChild) list.removeChild(list.firstChild); return (t.modes&1)!=0;}, 4);
+            }
+            genRandomList();
+            // hot
+            addBeatmapList("https://api.sayobot.cn/beatmaplist?0=4&1=0&2=1&5=1", document.getElementById("beatmap-list-hot"));
+            // liked
+            if (window.localforage) {
+                window.localforage.getItem("likedsidset", function(err, val){
+                    if (err) {
+                        document.getElementById("beatmap-list-liked").innerText = "收藏夹加载失败。";
+                        return;
+                    }
+                    if (val && val.size) {
+                        let listlike = document.getElementById("beatmap-list-liked");
+                        list = Array.from(val);
+                        for (let i=0; i<list.length && i<4; ++i)
+                            addBeatmapSid(list[i], listlike);
+                    }
+                    else {
+                        document.getElementById("beatmap-list-liked").innerText = "你还没有收藏一首歌曲哦！点击曲目右下角的爱心以收藏这个曲目。";
+                    }
+                });
+            }
+            else {
+                alert("localforage not supported")
+            }
+        </script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-169262247-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-169262247-1');
+</script>
+    
+
+
+<!-- attribution -->
+<!-- play icon made by https://www.flaticon.com/authors/those-icons -->
+<!-- search icon made by https://www.flaticon.com/authors/good-ware -->
+</body></html>
